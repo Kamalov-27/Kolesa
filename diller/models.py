@@ -11,9 +11,7 @@ class Favourites(models.Model):
 
 
 
-class Publications(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+class Publications(Favourites):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.TextField()
