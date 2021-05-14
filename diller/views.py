@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from rest_framework.views import APIView
 
 
-def one():
-    pass
+class One(APIView):
+    def get(self):
+        pass
