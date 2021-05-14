@@ -82,11 +82,11 @@ WSGI_APPLICATION = 'Kolesa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "one",
-        'USER': "beket",
-        'PASSWORD': "adminadmin",
+        'NAME': "Kolesa",
+        'USER': "postgres",
+        'PASSWORD': "12345",
         'HOST': 'localhost',
-        'PORT': 5432,
+        'PORT': 5433,
     }
 }
 
