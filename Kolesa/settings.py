@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    ''
+
 
     'auth_',
     'diller',
+    'main'
 ]
 
 MIDDLEWARE = [
@@ -83,11 +84,11 @@ WSGI_APPLICATION = 'Kolesa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "Kolesa",
-        'USER': "postgres",
-        'PASSWORD': "12345",
+        'NAME': "one",
+        'USER': "beket",
+        'PASSWORD': "adminadmin",
         'HOST': 'localhost',
-        'PORT': 5433,
+        'PORT': 5432,
     }
 }
 
