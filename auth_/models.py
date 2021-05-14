@@ -30,12 +30,12 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    # id = models.AutoField(primary_key=True)
+
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
-        unique=True,
-        null=True
+        unique=True
         )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -48,17 +48,13 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return self.is_superuser
-
-    def has_module_perms(self, app_label):
-        return self.is_superuser
-
     class Meta:
 
         db_table = "user_table"
 
 class Profile(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     first_name = models.CharField(max_length=50, unique=False)
     last_name = models.CharField(max_length=50, unique=False)
