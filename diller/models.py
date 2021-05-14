@@ -11,7 +11,7 @@ class FavoritesManager(models.Manager):
 
 class Favourites(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True)
 
     objects = FavoritesManager
 
@@ -20,7 +20,7 @@ class Publications(models.Manager):
         return self.filter().order_by('year')
 
 class Publications(Favourites):
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=150)
     description = models.TextField()
     price = models.IntegerField()

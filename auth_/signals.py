@@ -8,11 +8,11 @@ from . import models
 def developer_created(sender, instance, created, **kwargs):
     if created:
         models.Profile.objects.create(
-            first_name=instance.service_title,
-            last_name=instance.service_description,
-            phone_number=instance.phone_number,
-            age=instance.age,
-            gender=instance.gender
+            first_name='Ashr',
+            last_name='Ashe',
+            phone_number='1231231231',
+            age=19,
+            gender='M'
         )
 
 @receiver(post_delete, sender=models.Favorites)
