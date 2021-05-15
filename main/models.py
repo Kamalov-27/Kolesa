@@ -32,4 +32,13 @@ class Category(City):
     description = models.TextField(blank=True)
 
 
+class SubCategory(models.Model):
+    car_id = models.ForeignKey(Car, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=120)
 
+    def __str__(self):
+        return self.name
+
+# 
+# class EngineType(models.Model):
+#     name
