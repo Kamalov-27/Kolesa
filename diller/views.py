@@ -50,3 +50,15 @@ def favorites_detail(request, favourite_id):
 
         return Response({'deleted': True})
 
+class ArchiveAPIView(APIView):
+    def get(self):
+        pass
+    def post(self, request):
+        pass
+
+
+class PublicationsAPIView(APIView):
+    def get(self):
+        pass
+    def post(self, request):
+        pass
