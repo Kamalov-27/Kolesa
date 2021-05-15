@@ -153,6 +153,66 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': None,
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'console': {
+            'format': '%(name)-12s %(levelname)-8s %(message)s'
+        },
+        'file': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        'file_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': './logs/debug.log'
+        },
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': './logs/info.log'
+        },
+        'file_warning': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': './logs/warning.log'
+        },
+        'file_error': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': './logs/error.log'
+        }
+    },
+    'loggers': {
+        'main': {
+            'level': 'DEBUG',
+            'handlers': ['file_debug', 'file_info',
+                         'file_warning', 'file_error']
+        },
+        'diller': {
+            'level': 'DEBUG',
+            'handlers': ['file_debug', 'file_info',
+                         'file_warning', 'file_error']
+        },
+        'auth_': {
+            'level': 'DEBUG',
+            'handlers': ['file_debug', 'file_info',
+                         'file_warning', 'file_error']
+        }
+    }
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

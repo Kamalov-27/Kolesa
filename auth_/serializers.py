@@ -13,6 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = models.Profile
         fields = ('first_name', 'last_name', 'phone_number', 'age', 'gender')
 
+    def validate_phone(self, phone_number):
+        if ['/', '.'] in phone_number:
+            raise serializers.ValidationError('Not accepting character in phone')
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
 
@@ -22,6 +26,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = models.User
         fields = ('email', 'password', 'profile')
         extra_kwargs = {'password': {'write_only': True}}
+
+    def validate_email(self, email):
+        if ['@'] not in email:
+            raise serializers.ValidationError('Not accepting character in email')
+
+    def validate_password(self, password):
+        if len(password) <= 8 :
+            raise serializers.ValidationError('Password must be longer')
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')

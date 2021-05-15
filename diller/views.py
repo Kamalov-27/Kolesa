@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -10,15 +12,21 @@ class One(APIView):
     def get(self):
         pass
 
+logger = logging.getLogger(__name__)
+
 @api_view(['GET', 'POST'])
 def favorites_list(request):
     if request.method == 'GET':
+        logger.debug('In get')
+
         favorites = models.Favourites.objects.all()
         serializer = serializers.FavouritesSerializer(favorites, many=True)
 
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        logger.debug('In POST')
+
         serializer = serializers.FavouritesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -41,6 +49,8 @@ def favorites_detail(request, favourite_id):
     elif request.method == 'PUT':
         serializer = serializers.FavouritesSerializer(instance=favorite, data=request.data)
         if serializer.is_valid():
+            logger.info('DATA SAVED')
+
             serializer.save()
             return Response(serializer.data)
         return Response({'error': serializer.errors})
@@ -52,13 +62,28 @@ def favorites_detail(request, favourite_id):
 
 class ArchiveAPIView(APIView):
     def get(self):
-        pass
+        archive = models.Archive.objects.filter(user=self.request.user)
+        serializer = serializers.ArchiveSerializer(archive)
+        return Response(serializer.data)
+
     def post(self, request):
-        pass
+        serializer = serializers.ArchiveSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({'error': serializer.errors},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class PublicationsAPIView(APIView):
     def get(self):
-        pass
+        publication = models.Publications.objects.filter(user=self.request.user)
+        serializer = serializers.PublicationSerializer(publication, many=True)
+        return Response(serializer.data)
     def post(self, request):
-        pass
+        serializer = serializers.PublicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({'error': serializer.errors},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)

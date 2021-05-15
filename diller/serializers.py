@@ -22,3 +22,9 @@ class ArchiveSerializer(serializers.Serializer):
         category = models.Favourites.objects.create(user=validated_data.get('user'),
                                                     car=validated_data.get('car'))
         return category
+
+class PublicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        models = models.Publications
+        fields = '__all__'

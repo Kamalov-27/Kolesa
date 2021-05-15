@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
@@ -6,6 +8,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from . import serializers
 from . import models
+logger = logging.getLogger(__name__)
 
 class UserRegistrationView(CreateAPIView):
     serializer_class = serializers.UserRegistrationSerializer
@@ -16,6 +19,8 @@ class UserRegistrationView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         status_code = status.HTTP_201_CREATED
+        logger.info('DATA SAVED')
+
         response = {
             'success': 'True',
             'status code': status_code,
