@@ -8,10 +8,19 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from . import serializers
 from . import models
+from .models import Profile
+
 logger = logging.getLogger(__name__)
 
+from rest_framework import status
+from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from .serializers import UserRegistrationSerializer, UserLoginSerializer
+
+
 class UserRegistrationView(CreateAPIView):
-    serializer_class = serializers.UserRegistrationSerializer
+    serializer_class = UserRegistrationSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -19,8 +28,6 @@ class UserRegistrationView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         status_code = status.HTTP_201_CREATED
-        logger.info('DATA SAVED')
-
         response = {
             'success': 'True',
             'status code': status_code,
@@ -29,11 +36,10 @@ class UserRegistrationView(CreateAPIView):
 
         return Response(response, status=status_code)
 
-
 class UserLoginView(RetrieveAPIView):
 
     permission_classes = (AllowAny,)
-    serializer_class = serializers.UserLoginSerializer
+    serializer_class = UserLoginSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -48,7 +54,6 @@ class UserLoginView(RetrieveAPIView):
 
         return Response(response, status=status_code)
 
-
 class UserProfileView(RetrieveAPIView):
 
     permission_classes = (IsAuthenticated,)
@@ -56,7 +61,7 @@ class UserProfileView(RetrieveAPIView):
 
     def get(self, request):
         try:
-            user_profile = models.Profile.objects.get(user=request.user)
+            user_profile = Profile.objects.get(user=request.user)
             status_code = status.HTTP_200_OK
             response = {
                 'success': 'true',

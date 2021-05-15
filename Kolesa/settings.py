@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'Kolesa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "two",
+        'NAME': "tw",
         'USER': "beket",
         'PASSWORD': "adminadmin",
         'HOST': 'localhost',

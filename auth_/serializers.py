@@ -3,19 +3,14 @@ from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 
-from . import models
-
+from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Profile
+        model = Profile
         fields = ('first_name', 'last_name', 'phone_number', 'age', 'gender')
-
-    def validate_phone(self, phone_number):
-        if ['/', '.'] in phone_number:
-            raise serializers.ValidationError('Not accepting character in phone')
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -23,22 +18,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     profile = UserSerializer(required=False)
 
     class Meta:
-        model = models.User
+        model = User
         fields = ('email', 'password', 'profile')
         extra_kwargs = {'password': {'write_only': True}}
 
-    def validate_email(self, email):
-        if ['@'] not in email:
-            raise serializers.ValidationError('Not accepting character in email')
-
-    def validate_password(self, password):
-        if len(password) <= 8 :
-            raise serializers.ValidationError('Password must be longer')
-
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
-        user = models.User.objects.create_user(**validated_data)
-        models.Profile.objects.create(
+        user = User.objects.create_user(**validated_data)
+        Profile.objects.create(
             user=user,
             first_name=profile_data['first_name'],
             last_name=profile_data['last_name'],
@@ -70,7 +57,7 @@ class UserLoginSerializer(serializers.Serializer):
             payload = JWT_PAYLOAD_HANDLER(user)
             jwt_token = JWT_ENCODE_HANDLER(payload)
             update_last_login(None, user)
-        except models.User.DoesNotExist:
+        except User.DoesNotExist:
             raise serializers.ValidationError(
                 'User with given email and password does not exists'
             )
